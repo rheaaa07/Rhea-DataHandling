@@ -1,0 +1,31 @@
+data <- data.frame(
+  Customer_ID = c("CG-12520", "CG-12520", "DV-13045", "SO-20335", "SO-20335", "BH-11710", "BH-11710", "BH-11710"),
+  City = c("Henderson", "Henderson", "Los Angeles", "Fort Lauderdale", "Fort Lauderdale", "Los Angeles", "Los Angeles", "Los Angeles"),
+  Postal_Code = c(42420, 42420, 90036, 33311, 33311, 90032, 90032, 90032),
+  Product_ID = c("FUR-BO-10001798", "FUR-CH-10000454", "OFF-LA-10000240", "FUR-TA-10000577", "OFF-ST-10000760", "FUR-FU-10001487", "OFF-AR-10002833", "TEC-PH-10002275"),
+  Category = c("Furniture", "Furniture", "Office Supplies", "Furniture", "Office Supplies", "Furniture", "Office Supplies", "Technology"),
+  Product_Name = c("Bush Somerset Collection Bookcase", "Hon Deluxe Fabric Upholstered Stacking Chairs, Rounded Back", "Self-Adhesive Address Labels for Typewriters by Universal", "Bretford CR4500 Series Slim Rectangular Table", "Eldon Fold N Roll Cart System", "Eldon Expressions Wood and Plastic Desk Accessories, Cherry Wood", "Newell 322", "Mitel 5320 IP Phone VoIP phone"),
+  Sales = c(261.96, 731.94, 14.62, 957.5775, 22.368, 48.86, 7.28, 907.152)
+)
+print(data)                                                                                                                                                                                              bar_plot <- ggplot(data, aes(x = Product_ID, y = Sales)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Total Sales for Each Product",
+       x = "Product ID", y = "Total Sales") +
+  theme_minimal() +
+  
+# Display the bar plot
+print(bar_plot)                                                                                                                                                                                     product_sales <- aggregate(Sales ~ Product_ID, data = data, FUN = sum)
+
+# Create the line plot
+line_plot <- ggplot(product_sales, aes(x = Product_ID, y = Sales)) +
+  geom_line() +
+  geom_point() +  # Add points for each data point
+  labs(title = "Total Sales for Each Product",
+       x = "Product ID", y = "Total Sales") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for better readability
+
+# Display the line plot
+print(line_plot) 
+  sc=ggplot(data,aes(x=Product_ID,y=Sales,color="red"))+geom_point(size=4)+labs(title="scatter plot for sales",x="x axis",y="y axis")+theme_minimal()
+print(sc)

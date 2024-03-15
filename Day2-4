@@ -1,0 +1,17 @@
+data <- data.frame(
+  Customer_ID = c(1, 2, 3, 4, 5),
+  Customer_Name = c("Ram", "Shiva", "Kesav", "Hari", "Harini"),
+  Review = c("Products are very good", "Ok but need to add more quantities", 
+             "Average", "Not liked the products", "Good place to buy")
+)
+
+# Plot based on review with Line Plot
+plot(data$Customer_ID, type = "n", xlab = "Customer ID", ylab = "Review", 
+     main = "Customer Reviews (Line Plot)", ylim = c(0.5, 5.5), yaxt = "n")
+text(data$Customer_ID, rep(1:5, each = 1), labels = data$Review, pos = 1)
+
+# Plot based on review with Scatter Plot
+plot(data$Customer_ID, rep(1, nrow(data)), pch = 16, col = "blue", 
+     main = "Customer Reviews (Scatter Plot)", xlab = "Customer ID", ylab = "Review", 
+     ylim = c(0.5, 5.5))
+text(data$Customer_ID, rep(1:5, each = 1), labels = data

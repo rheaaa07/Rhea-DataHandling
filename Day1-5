@@ -1,0 +1,46 @@
+# Load necessary libraries
+library(ggplot2)
+
+# Create the dataframe
+data <- data.frame(
+  Year = c(2019, 2020, 2022, 2023, 2024),
+  Job_Sector = c("IT", "Government Job", "Customer care", "Bank", "Games"),
+  Job_Seekers_Rate = c(95, 97, 98, 82, 74)
+)
+
+# Pie chart
+pie_plot <- ggplot(data, aes(x = "", y = Job_Seekers_Rate, fill = Job_Sector)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  labs(title = "Pie Chart of Job Seekers by Job Sector", fill = "Job Sector") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+# Display the pie chart
+print(pie_plot)
+  mosaic_plot <- ggplot(data, aes(x = Year, fill = Job_Sector)) +
+  geom_bar(position = "fill") +
+  labs(title = "Mosaic Plot of Job Sector by Year", x = "Year", y = "Proportion", fill = "Job Sector") +
+  theme_minimal()
+
+# Display the mosaic plot
+print(mosaic_plot)
+  sample_size <- c(100, 200, 150, 120, 180)
+
+# Calculate standard error
+se <- sqrt((data$Selection_Rate / 100) * (1 - data$Selection_Rate / 100) / sample_size)
+
+# Create a dataframe for plotting
+plot_data <- data.frame(Year = data$Year, Selection_Rate = data$Selection_Rate, SE = se)
+
+# Create a funnel plot
+funnel_plot <- ggplot(plot_data, aes(x = SE, y = Year)) +
+  geom_point() +
+  geom_segment(aes(xend = SE + 0.5, yend = Year), color = "blue") +  # Add guiding lines
+  labs(title = "Funnel Plot for Selection Dataset",
+       x = "Standard Error (sqrt(sample size))",
+       y = "Year") +
+  theme_minimal()
+
+# Display the funnel plot
+print(funnel_plot)

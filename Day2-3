@@ -1,0 +1,11 @@
+d=data.frame(id=c(1,2,3),age=c(28,35,42),gender=c("f","m","f"),income=c(50000,60000,75000))
+print(d)                                                                                                                                                                                                          pp=ggplot(d,aes(x="",y="income",fill=age))+geom_bar(stat="identity",width=1)+coord_polar("y",start=0)+labs(title="pie plot",fill="age")+theme_minimal()
+print(pp)
+stk=ggplot(d,aes(x=id,y=income,fill=age))+geom_bar(stat="identity",color="red")+labs(title="stacked bar",x="x axis",y="y axis",fill="age")+theme_minimal()
+print(stk)
+ggplot(data, aes(x = Gender, y = Income, fill = Gender)) +
+  geom_boxplot() +
+  labs(title = "Income Distribution by Gender",
+       x = "Gender",
+       y = "Income ($)") +
+  theme_minimal()

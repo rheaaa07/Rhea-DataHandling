@@ -1,0 +1,8 @@
+d=data.frame(schl=c("a","a","a","b","b","b","c","c","c","d","d","d"),grade=c("g1","g2","g3","g1","g2","g3","g1","g2","g3","g1","g2","g3"),stu=c(25,30,20,22,28,18,20,25,15,28,32,24))
+print(d)
+scatterp=ggplot(d,aes(x=grade,y=stu,color=schl))+geom_point(size=4)+labs(title="scatter plot",x="x axis",y="y axis")+theme_minimal()
+mosaicp=ggplot(d,aes(x=schl,fill=grade))+geom_bar(position="fill")+labs(title="mossaic plot",x="x axis",y="y axis")+theme_minimal()
+histp=ggplot(d,aes(x=stu))+geom_histogram(binwidth=5,color="green")+labs(title="hist plot",x="x axis",y="y axis")+theme_minimal()
+print(scatterp)
+print(mosaicp)
+print(histp)

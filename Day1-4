@@ -1,0 +1,18 @@
+data <- data.frame(
+  Year = c(2019, 2020, 2022, 2023, 2024),
+  Browser = rep("Chrome", 5),
+  Users = c(22.7, 25.8, 28.7, 30.5, 35.2)
+)
+scp=ggplot(data,aes(x=Year,y=Users,color=Browser))+geom_point(size=5)+labs(title="scatter plot",x="x axis",y="y axis")+theme_minimal()
+print(scp)
+pps=ggplot(data,aes(x="",y=Users,fill=factor(Year)))+geom_bar(stat="identity",width=1)+coord_polar("y",start=0)+
+  labs(title="plot",fill="Year")+theme_minimal()
+print(pps)
+mosaic_plot <- ggplot(data, aes(x = factor(Year), y = Users, fill = Browser)) +
+  geom_tile() +
+  labs(title = "Mosaic Plot of Users by Year and Browser",
+       x = "Year", y = "Users", fill = "Browser") +
+  theme_minimal()
+
+# Display the mosaic plot
+print(mosaic_plot)

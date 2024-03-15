@@ -1,0 +1,32 @@
+library(ggplot2)
+
+# Create the dataframe
+sales_data <- data.frame(
+  Product_ID = c(1, 2, 3, 4),
+  Product_Name = c("Product A", "Product B", "Product C", "Product D"),
+  Jan_Apr_Sales = c(20000, 15000, 12000, 12000),
+  May_Aug_Sales = c(22000, 18000, 14000, 18000),
+  Sep_Dec_Sales = c(24000, 16000, 11000, 14000)
+)
+
+# Aggregate the data to calculate total sales for each product
+sales_data$total_sales <- rowSums(sales_data[, c("Jan_Apr_Sales", "May_Aug_Sales", "Sep_Dec_Sales")])
+
+# Create the funnel plot
+funnel_plot <- ggplot(sales_data, aes(x = Product_Name, y = total_sales)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Funnel Plot of Total Product Sales",
+       x = "Product Name", y = "Total Sales") +
+  theme_minimal()
+
+# Display the funnel plot
+print(funnel_plot)
+msp=ggplot(data,aes(x=January_April_Sales,y=May_Aug_Sales,fill=Sep_Dec_Sales))+geom_tile()+labs(title="mossaic plot",x="x axis",y="y axis")+theme_minimal()
+print(msp)
+  bar_plot <- ggplot(data, aes(x = January_April_Sales, y = May_Aug_Sales, fill = Product_Name)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Bar Plot of Monthly Product Sales",
+       x = "Month", y = "Sales", fill = "Product Name") +
+  theme_minimal()
+
+# Display the bar plot
