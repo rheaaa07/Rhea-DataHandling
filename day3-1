@@ -1,0 +1,27 @@
+library(ggplot2)
+library(dplyr)
+library(forecast)
+
+# Create the data frame
+data <- data.frame(
+  Month = c("Jan", "Feb", "March", "April", "May", "Jun", "July", "August", "Sep", "Oct", "Nov", "Dec"),
+  Economic_Condition = c("Good", "Good", "Good", "Good", "Fair", "Fair", "Good", "Bad", "Fair", "Good", "Bad", "Fair"),
+  Unemployment_Rate = c(10.7, 9.8, 10.2, 11.2, 15.75, 17.8, 19.4, 25.6, 18.6, 15.6, 26.7, 19.5)
+)
+
+# Convert Unemployment Rate to numeric (remove % sign)
+data$Unemployment_Rate <- as.numeric(sub("%", "", data$Unemployment_Rate))
+
+# Time-series decomposition
+ts_data <- ts(data$Unemployment_Rate, frequency = 12)
+decomposed <- decompose(ts_data)
+
+# Visualization and interpretation
+plot(decomposed)
+# Stacked bar chart
+ggplot(data, aes(x = Month, y = Unemployment_Rate, fill = Economic_Condition)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Monthly Unemployment Rate by Economic Condition",
+       x = "Month",
+       y = "Unemployment Rate (%)") +
+  theme_minimal()

@@ -1,0 +1,57 @@
+
+
+
+
+# Load necessary libraries
+library(ggplot2)
+library(tidyr)
+library(fmsb)
+
+# Create the data frame
+consumption <- data.frame(
+  Sector = c('Residential', 'Commercial', 'Industrial', 'Transportation'),
+  Q1 = c(5000, 8000, 9000, 4000),
+  Q2 = c(6000, 7000, 9500, 4200),
+  Q3 = c(7000, 6000, 10000, 4300),
+  Q4 = c(6500, 7500, 9500, 4100)
+)
+
+# Reshape the data for plotting (from wide to long format)
+consumption_long <- tidyr::gather(consumption, Quarter, kWh, -Sector)
+
+# Generate Line Plot
+line_plot <- ggplot(consumption_long, aes(x = Quarter, y = kWh, color = Sector, group = Sector)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Energy Consumption",
+       x = "Quarter",
+       y = "kWh") +
+  theme_minimal()
+
+# Describe with a Bar Plot
+bar_plot <- ggplot(consumption_long, aes(x = Sector, y = kWh, fill = Quarter)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Energy Consumption",
+       x = "Sector",
+       y = "kWh") +
+  theme_minimal()
+
+# Visualize with Radar Plot
+radar_data <- consumption[-1] # Exclude Sector column
+rownames(radar_data) <- consumption$Sector
+radar_plot <- radarchart(radar_data,
+                         axistype = 1,
+                         title = "Energy Consumption",
+                         pcol = c("#FF6347", "#1E90FF", "#32CD32", "#FFD700"),
+                         plwd = 2,
+                         plty = 1,
+                         cglwd = 1,
+                         cglty = 1,
+                         caxislabels = seq(0, 10000, by = 2000),
+                         cglcol = "grey",
+                         vlcex = 0.8)
+
+# Show the plots
+print(line_plot)
+print(bar_plot)
+print(radar_plot)

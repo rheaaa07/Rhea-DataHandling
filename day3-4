@@ -1,0 +1,47 @@
+
+
+
+# Load necessary libraries
+library(ggplot2)
+library(tidyr)
+
+# Create the data frame
+followers <- data.frame(
+  Month = c('January', 'February', 'March', 'April'),
+  Facebook = c(12000, 12500, 13000, 13500),
+  Instagram = c(15000, 15500, 16000, 16500),
+  Twitter = c(8000, 8200, 8400, 8600)
+)
+
+# Reshape the data for plotting (from wide to long format)
+followers_long <- tidyr::gather(followers, Social_Media, Followers, -Month)
+
+# Generate Stacked Bar Plot
+stacked_bar_plot <- ggplot(followers_long, aes(x = Month, y = Followers, fill = Social_Media)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Social Media Followers",
+       x = "Month",
+       y = "Followers") +
+  theme_minimal()
+
+# Describe with a Histogram Plot
+histogram_plot <- ggplot(followers_long, aes(x = Followers, fill = Social_Media)) +
+  geom_histogram(binwidth = 1000, position = "dodge", alpha = 0.7) +
+  labs(title = "Social Media Followers",
+       x = "Followers",
+       y = "Frequency") +
+  theme_minimal()
+
+# Visualize with Line Plot
+line_plot <- ggplot(followers_long, aes(x = Month, y = Followers, color = Social_Media, group = Social_Media)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Social Media Followers",
+       x = "Month",
+       y = "Followers") +
+  theme_minimal()
+
+# Show the plots
+print(stacked_bar_plot)
+print(histogram_plot)
+print(line_plot)

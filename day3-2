@@ -1,0 +1,47 @@
+
+
+# Load necessary libraries
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(plotrix)
+
+# Create the data frame
+rainfall <- data.frame(
+  Year = c(2019, 2020, 2021, 2022),
+  City_A = c(1200, 1150, 1230, 1180),
+  City_B = c(800, 850, 870, 900),
+  City_C = c(900, 950, 990, 950)
+)
+
+# Reshape the data for plotting (from wide to long format)
+rainfall_long <- tidyr::gather(rainfall, City, Rainfall, -Year)
+
+# Generate Scatter Plot
+scatter_plot <- ggplot(rainfall_long, aes(x = Year, y = Rainfall, color = City)) +
+  geom_point() +
+  labs(title = "Annual Rainfall",
+       x = "Year",
+       y = "Rainfall (mm)") +
+  theme_minimal()
+
+# Describe with a Doughnut Pie plot
+total_rainfall <- colSums(rainfall[, -1])
+pie_labels <- names(total_rainfall)
+pie_values <- total_rainfall
+pie_colors <- rainbow(length(pie_values))
+doughnut_pie <- pie3D(pie_values, labels = pie_labels, col = pie_colors, main = "Total Rainfall by City")
+
+# Visualize with Grouped Bar plot
+grouped_bar_plot <- ggplot(rainfall_long, aes(x = Year, y = Rainfall, fill = City)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Annual Rainfall",
+       x = "Year",
+       y = "Rainfall (mm)") +
+  theme_minimal()
+
+# Show the plots
+print(scatter_plot)
+print(doughnut_pie)
+print(grouped_bar_plot)
+
