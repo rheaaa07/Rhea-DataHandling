@@ -1,0 +1,337 @@
+
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv("/content/superstore.csv",encoding="latin1")
+
+product_details = df[['Product_ID', 'Product_Name']].drop_duplicates()
+product_indices = range(len(product_details))
+plt.figure(figsize=(12, 8))
+plt.bar(product_indices, len(product_indices) * [1], color='skyblue')
+plt.xlabel('Product Index')
+plt.ylabel('Count')
+plt.title('Product Details')
+plt.xticks(product_indices, [])
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("/content/superstore.csv",encoding="latin1")
+
+
+product_sales = df.groupby('Product_ID')['Sales'].sum()
+
+
+product_sales_sorted = product_sales.sort_values(ascending=False)
+top_products = product_sales_sorted.head(10)
+bottom_products = product_sales_sorted.tail(10)
+
+plt.figure(figsize=(12, 8))
+plt.bar(top_products.index, top_products.values, color='skyblue', label='High-Selling Products')
+plt.bar(bottom_products.index, bottom_products.values, color='salmon', label='Low-Selling Products')
+
+plt.xlabel('Product ID')
+plt.ylabel('Total Sales')
+plt.title('High-Selling and Low-Selling Products by Product ID')
+plt.xticks(rotation=90)
+plt.legend()
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+df = pd.read_csv('/content/superstore.csv', encoding="latin1")
+
+
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+
+df['Year'] = df['Order_Date'].dt.year
+
+yearly_sales = df.groupby('Year')['Sales'].sum()
+
+
+plt.figure(figsize=(10, 6))
+plt.plot(yearly_sales.index, yearly_sales.values, marker='o', color='skyblue', linestyle='-')
+plt.title('Year-wise Sales Rate')
+plt.xlabel('Year')
+plt.ylabel('Total Sales')
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+df = pd.read_csv('/content/superstore.csv', encoding="latin1")
+
+ship_mode_sales = df.groupby('Ship_Mode')['Sales'].sum()
+
+
+plt.figure(figsize=(10, 6))
+ship_mode_sales.plot(kind='bar', color='skyblue')
+plt.title('Ship-mode Selling Details')
+plt.xlabel('Ship Mode')
+plt.ylabel('Total Sales')
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+df = pd.read_csv("/content/superstore.csv",encoding="latin1")
+
+# Group by Region and sum the sales
+region_sales = df.groupby('Region')['Sales'].sum()
+
+# Plot the sales details region-wise
+plt.figure(figsize=(10, 6))
+plt.bar(region_sales.index, region_sales.values, color='skyblue')
+plt.xlabel('Region')
+plt.ylabel('Total Sales')
+plt.title('Region-wise Sales Details')
+plt.xticks(rotation=45)
+plt.grid(axis='y')
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the dataset
+df = pd.read_csv("/content/superstore.csv",encoding="latin1")
+
+# Group by Category and Sub-Category and sum the sales
+category_sales = df.groupby(['Category', 'Sub_Category'])['Sales'].sum().reset_index()
+
+# Plot the sales details category and sub-category wise in a scatter plot
+plt.figure(figsize=(12, 8))
+
+# Scatter plot with smaller markers
+plt.scatter(category_sales['Category'], category_sales['Sub_Category'], s=20, alpha=0.5, c='skyblue')
+
+plt.xlabel('Category')
+plt.ylabel('Sub-Category')
+plt.title('Sales Details by Category and Sub-Category')
+plt.xticks(rotation=45)
+plt.grid(True)
+
+# Show plot
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the dataset
+df = pd.read_csv("/content/superstore.csv", encoding="latin1")
+
+# Convert 'Order_Date' column to datetime type
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+# Extract year from 'Order_Date'
+df['Year'] = df['Order_Date'].dt.year
+
+# Group by year and sum the sales
+yearly_sales = df.groupby('Year')['Sales'].sum()
+
+# Plot the sales data year-wise in a line plot
+plt.figure(figsize=(10, 6))
+plt.plot(yearly_sales.index, yearly_sales.values, marker='o', linestyle='-')
+plt.xlabel('Year')
+plt.ylabel('Total Sales')
+plt.title('Yearly Sales Details')
+plt.grid(True)
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the dataset
+df = pd.read_csv("/content/superstore.csv", encoding="latin1")
+
+# Convert 'Order_Date' column to datetime type
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+# Extract year and month from 'Order_Date'
+df['Year'] = df['Order_Date'].dt.year
+df['Month'] = df['Order_Date'].dt.month
+
+# Group by customer and count the number of purchases
+customer_purchases = df.groupby('Customer_Name').size()
+
+# Filter regular customers (let's say those who made more than 10 purchases)
+regular_customers = customer_purchases[customer_purchases > 10]
+
+# Plot the distribution of purchases made by regular customers
+plt.figure(figsize=(10, 6))
+regular_customers.hist(bins=20, color='skyblue')
+plt.xlabel('Number of Purchases')
+plt.ylabel('Number of Customers')
+plt.title('Distribution of Purchases by Regular Customers')
+plt.grid(True)
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Step 1: Read the dataset
+df = pd.read_csv('/content/superstore.csv', encoding="latin1")
+
+# Step 2: Group data by customer and product and calculate total sales
+customer_product_sales = df.groupby(['Customer_ID', 'Product_ID'])['Sales'].sum().reset_index()
+
+# Step 3: Find top-selling product for each customer
+top_selling_product_per_customer = customer_product_sales.loc[customer_product_sales.groupby('Customer_ID')['Sales'].idxmax()]
+
+# Step 4: Visualize the top-selling product for each customer as a stacked bar plot
+plt.figure(figsize=(12, 8))
+sns.barplot(data=top_selling_product_per_customer, x='Customer_ID', y='Sales', hue='Product_ID', dodge=False)
+plt.title('Top Selling Product for Each Customer')
+plt.xlabel('Customer ID')
+plt.ylabel('Total Sales')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Step 1: Read the dataset
+df = pd.read_csv('/content/superstore.csv', encoding="latin1")
+
+# Step 2: Extract year from Order_Date column
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+df['Year'] = df['Order_Date'].dt.year
+
+# Step 3: Group data by year and product and calculate total sales
+yearly_product_sales = df.groupby(['Year', 'Product_ID'])['Sales'].sum().reset_index()
+
+# Step 4: Find top-selling product for each year
+top_selling_product_per_year = yearly_product_sales.loc[yearly_product_sales.groupby('Year')['Sales'].idxmax()]
+
+# Step 5: Prepare data for grouped bar chart
+pivot_table = top_selling_product_per_year.pivot(index='Year', columns='Product_ID', values='Sales').fillna(0)
+
+# Step 6: Plot grouped bar chart
+pivot_table.plot(kind='bar', stacked=False, figsize=(12, 8))
+plt.title('Year-wise Top Selling Products')
+plt.xlabel('Year')
+plt.ylabel('Total Sales')
+plt.xticks(rotation=45)
+plt.legend(title='Product ID', bbox_to_anchor=(1, 1))
+plt.tight_layout()
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Assuming you have already loaded your dataset into a DataFrame called 'df'
+df = pd.read_csv()
+'/content/superstore.csv', encoding="latin1"
+# Convert 'Order_Date' column to datetime format
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+# Extract year from 'Order_Date' column
+df['Year'] = df['Order_Date'].dt.year
+
+# Group by year and calculate sum of sales
+yearly_sales = df.groupby('Year')['Sales'].sum().reset_index()
+
+# Plotting the chart
+plt.figure(figsize=(10, 6))
+plt.bar(yearly_sales['Year'], yearly_sales['Sales'], color='skyblue')
+plt.title('Year-wise Sales Rate')
+plt.xlabel('Year')
+plt.ylabel('Total Sales')
+plt.xticks(yearly_sales['Year'])
+plt.grid(True)
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read the dataset (replace 'dataset.csv' with your actual file path)
+df = pd.read_csv('/content/superstore.csv', encoding="latin1")
+
+# Group by Ship_Mode and sum up the sales
+ship_mode_sales = df.groupby('Ship_Mode')['Sales'].sum()
+
+# Plotting
+plt.figure(figsize=(10, 6))
+ship_mode_sales.plot(kind='bar', color='skyblue')
+plt.title('Ship-mode Selling Details')
+plt.xlabel('Ship Mode')
+plt.ylabel('Total Sales')
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read the dataset (replace 'dataset.csv' with your actual file path)
+df = pd.read_csv('/content/superstore.csv', encoding="latin1")
+
+# Convert Order_Date column to datetime format
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+# Extract year from Order_Date
+df['Year'] = df['Order_Date'].dt.year
+
+# Group by Year and sum up the sales
+yearly_sales = df.groupby('Year')['Sales'].sum()
+
+# Find the top selling year
+top_selling_year = yearly_sales.idxmax()
+
+# Plotting
+plt.figure(figsize=(10, 6))
+yearly_sales.plot(kind='bar', color='skyblue')
+plt.title('Top Selling Year')
+plt.xlabel('Year')
+plt.ylabel('Total Sales')
+plt.xticks(rotation=45, ha='right')
+plt.axvline(x=top_selling_year, color='red', linestyle='--', label='Top Selling Year: ' + str(top_selling_year))
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read the dataset (replace '/content/superstore.csv' with your actual file path)
+df = pd.read_csv('/content/superstore.csv', encoding="latin1")
+
+# Group by City and count the number of products sold
+city_product_count = df.groupby('City').size().sort_values()
+
+# Plotting
+plt.figure(figsize=(10, 6))
+city_product_count.plot(kind='line', marker='o', color='skyblue')
+plt.title('Number of Products Sold in Each City')
+plt.xlabel('City')
+plt.ylabel('Number of Products Sold')
+plt.xticks(rotation=90)
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv('/content/superstore.csv', encoding="latin1")
+
+segment_sales = df.groupby('Segment')['Sales'].sum()
+
+
+plt.figure(figsize=(10, 6))
+plt.hist(df['Sales'], bins=20, color='skyblue', alpha=0.7)
+plt.title('Segment-wise Selling Details')
+plt.xlabel('Sales')
+plt.ylabel('Frequency')
+plt.grid(True)
+plt.tight_layout()
+plt.show()
